@@ -1,0 +1,137 @@
+name: Fabric
+version: "1.0"
+mutual-tls: false
+caliper:
+  blockchain: fabric
+  command:
+    start: sleep 1s
+    end: rm -rf /tmp/hfc-*
+info:
+  Version: 2.1.0
+  Orderer: raft
+
+clients:
+  client0.org1.example.com:
+    client:
+      organization: Org1
+      credentialStore:
+        path: /tmp/org1
+        cryptoStore:
+          path: /tmp/org1
+      clientPrivateKey:
+        path: '../../testwork/fixtures/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk'
+      clientSignedCert:
+        path: '../../testwork/fixtures/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem'
+channels:
+  mychannel:
+    configBinary: "../../testwork/fixtures/channel-artifacts/mychannel.tx"
+    created: false
+    # Array of contracts to be installed/instantiated on the named channel and available for use by the workload module
+    contracts:
+      - id: smallbank
+        version: v0
+        language: golang
+        path: src/fabric/go/smallbank
+    orderers:
+      - orderer1.example.com
+      - orderer2.example.com
+      - orderer3.example.com
+      - orderer4.example.com
+    peers:
+      peer0.org1.example.com:
+        eventSource: true
+      peer0.org2.example.com:
+        eventSource: true
+      peer0.org3.example.com:
+        eventSource: true
+      peer0.org4.example.com:
+        eventSource: true
+organizations:
+  Org1:
+    mspid: Org1MSP
+    peers:
+      - peer0.org1.example.com
+    adminPrivateKey:
+      path: '../../testwork/fixtures/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk'
+    signedCert:
+      path: '../../testwork/fixtures/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem'
+  Org2:
+    mspid: Org2MSP
+    peers:
+      - peer0.org2.example.com
+    adminPrivateKey:
+      path: '../../testwork/fixtures/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/priv_sk'
+    signedCert:
+      path: '../../testwork/fixtures/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem'
+  Org3:
+    mspid: Org3MSP
+    peers:
+      - peer0.org3.example.com
+    adminPrivateKey:
+      path: '../../testwork/fixtures/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore/priv_sk'
+    signedCert:
+      path: '../../testwork/fixtures/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/signcerts/Admin@org3.example.com-cert.pem'
+  Org4:
+    mspid: Org4MSP
+    peers:
+      - peer0.org4.example.com
+    adminPrivateKey:
+      path: '../../testwork/fixtures/crypto-config/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp/keystore/priv_sk'
+    signedCert:
+      path: '../../testwork/fixtures/crypto-config/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp/signcerts/Admin@org4.example.com-cert.pem'
+
+orderers:
+  orderer1.example.com:
+    url: "grpcs://127.0.0.1:7050"
+    grpcOptions:
+      ssl-target-name-override: orderer1.example.com
+    tlsCACerts:
+      path: "../../testwork/fixtures/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/tls/ca.crt"
+  orderer2.example.com:
+    url: "grpcs://127.0.0.1:7050"
+    grpcOptions:
+      ssl-target-name-override: orderer2.example.com
+    tlsCACerts:
+      path: "../../testwork/fixtures/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/tls/ca.crt"
+  orderer3.example.com:
+    url: "grpcs://127.0.0.1:7050"
+    grpcOptions:
+      ssl-target-name-override: orderer4.example.com
+    tlsCACerts:
+      path: "../../testwork/fixtures/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/tls/ca.crt"
+  orderer4.example.com:
+    url: "grpcs://127.0.0.1:7050"
+    grpcOptions:
+      ssl-target-name-override: orderer4.example.com
+    tlsCACerts:
+      path: "../../testwork/fixtures/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/tls/ca.crt"
+
+peers:
+  peer0.org1.example.com:
+    url: "grpcs://47.101.223.240:7051"
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: "../../testwork/fixtures/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+  peer0.org2.example.com:
+    url: "grpcs://47.100.160.31:7061"
+    grpcOptions:
+      ssl-target-name-override: peer0.org2.example.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: "../../testwork/fixtures/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+  peer0.org3.example.com:
+    url: "grpcs://139.224.16.249:8051"
+    grpcOptions:
+      ssl-target-name-override: peer0.org3.example.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: "../../testwork/fixtures/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt"
+  peer0.org4.example.com:
+    url: "grpcs://47.100.164.186:8061"
+    grpcOptions:
+      ssl-target-name-override: peer0.org4.example.com
+      grpc.keepalive_time_ms: 600000
+    tlsCACerts:
+      path: "../../testwork/fixtures/crypto-config/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/ca.crt"
