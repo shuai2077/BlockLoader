@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="62798218-ff55-419c-8e1e-c38d8a95a0f0" name="Default Changelist" comment="" />
+    <list default="true" id="62798218-ff55-419c-8e1e-c38d8a95a0f0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/testwork.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/testwork.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,65 +20,74 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="/usr/local/go" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../JetBrains/Goland/sdk/go1.18.0" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
     <option name="urls">
       <list>
         <option value="file://$PROJECT_DIR$/.." />
       </list>
     </option>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2FkkcGHv3FN0o7wc2VxSeNTZ0DH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="DefaultGoTemplateProperty" value="Go File" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="configurable.Global.GOPATH.is.expanded" value="true" />
-    <property name="configurable.Module.GOPATH.is.expanded" value="false" />
-    <property name="configurable.Project.GOPATH.is.expanded" value="true" />
-    <property name="go.import.settings.migrated" value="true" />
-    <property name="go.sdk.automatically.set" value="true" />
-    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="go.vgo" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.vendoring.notification.had.been.shown": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "C:/Users/85943",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RunManager" selected="Go Build.go build main.go">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="testwork" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
       <kind value="DIRECTORY" />
-      <filePath value="$PROJECT_DIR$" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="go build controllerHandler.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="testwork" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/web/controllerHandler.go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/web/controllerHandler.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build get.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="testwork" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/sdkInit/get.go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/sdkInit/get.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="testwork" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/main.go" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
@@ -90,20 +105,29 @@
       <module name="testwork" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$/test.go" />
       <package value="testwork" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/test.go" />
       <method v="2" />
     </configuration>
     <configuration name="BenchmarkMyFunction in testwork" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="testwork" />
       <working_directory value="$PROJECT_DIR$" />
-      <framework value="gobench" />
       <kind value="PACKAGE" />
       <package value="testwork" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
+      <framework value="gobench" />
       <pattern value="^\QBenchmarkMyFunction\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="testwork" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <list>
@@ -127,46 +151,19 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="VgoProject">
-    <integration-enabled>true</integration-enabled>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
-  <component name="WindowStateProjectService">
-    <state width="1422" height="288" key="GridCell.Tab.0.bottom" timestamp="1719389969833">
-      <screen x="72" y="27" width="1468" height="918" />
-    </state>
-    <state width="1370" height="599" key="GridCell.Tab.0.bottom/72.27.1416.955@72.27.1416.955" timestamp="1713073443288" />
-    <state width="1422" height="288" key="GridCell.Tab.0.bottom/72.27.1468.918@72.27.1468.918" timestamp="1719389969833" />
-    <state width="1422" height="288" key="GridCell.Tab.0.center" timestamp="1719389969831">
-      <screen x="72" y="27" width="1468" height="918" />
-    </state>
-    <state width="1370" height="599" key="GridCell.Tab.0.center/72.27.1416.955@72.27.1416.955" timestamp="1713073443286" />
-    <state width="1422" height="288" key="GridCell.Tab.0.center/72.27.1468.918@72.27.1468.918" timestamp="1719389969831" />
-    <state width="1422" height="288" key="GridCell.Tab.0.left" timestamp="1719389969830">
-      <screen x="72" y="27" width="1468" height="918" />
-    </state>
-    <state width="1370" height="599" key="GridCell.Tab.0.left/72.27.1416.955@72.27.1416.955" timestamp="1713073443285" />
-    <state width="1422" height="288" key="GridCell.Tab.0.left/72.27.1468.918@72.27.1468.918" timestamp="1719389969830" />
-    <state width="1422" height="288" key="GridCell.Tab.0.right" timestamp="1719389969832">
-      <screen x="72" y="27" width="1468" height="918" />
-    </state>
-    <state width="1370" height="599" key="GridCell.Tab.0.right/72.27.1416.955@72.27.1416.955" timestamp="1713073443287" />
-    <state width="1422" height="288" key="GridCell.Tab.0.right/72.27.1468.918@72.27.1468.918" timestamp="1719389969832" />
-    <state width="1422" height="288" key="GridCell.Tab.1.bottom" timestamp="1719389969836">
-      <screen x="72" y="27" width="1468" height="918" />
-    </state>
-    <state width="1422" height="288" key="GridCell.Tab.1.bottom/72.27.1468.918@72.27.1468.918" timestamp="1719389969836" />
-    <state width="1422" height="288" key="GridCell.Tab.1.center" timestamp="1719389969835">
-      <screen x="72" y="27" width="1468" height="918" />
-    </state>
-    <state width="1422" height="288" key="GridCell.Tab.1.center/72.27.1468.918@72.27.1468.918" timestamp="1719389969835" />
-    <state width="1422" height="288" key="GridCell.Tab.1.left" timestamp="1719389969834">
-      <screen x="72" y="27" width="1468" height="918" />
-    </state>
-    <state width="1422" height="288" key="GridCell.Tab.1.left/72.27.1468.918@72.27.1468.918" timestamp="1719389969834" />
-    <state width="1422" height="288" key="GridCell.Tab.1.right" timestamp="1719389969835">
-      <screen x="72" y="27" width="1468" height="918" />
-    </state>
-    <state width="1422" height="288" key="GridCell.Tab.1.right/72.27.1468.918@72.27.1468.918" timestamp="1719389969835" />
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
