@@ -137,7 +137,7 @@ cd ~/testwork/
 ./testwork
 ```
 
-After the blockchain is deployed, we run the following command to turn on caliper testing
+After the blockchain is deployed, we run the following command to turn on caliper testing.
 
 ```bash
 cd ~/fabric-demo/caliper-benchmarks/
