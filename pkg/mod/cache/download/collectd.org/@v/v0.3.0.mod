@@ -1,1 +1,0 @@
-module collectd.org
