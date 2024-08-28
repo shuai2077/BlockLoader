@@ -1,0 +1,22 @@
+test:
+  workers:
+    number: 5
+  rounds:
+    - label: Set value.
+      txNumber: 5000
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 5
+      workload:
+        module: benchmarks/samples/fabric/sacc/setValue.js
+    - label: Query value.
+      txDuration: 30
+      rateControl:
+          type: fixed-load
+          opts:
+            transactionLoad: 5
+      workload:
+        module: benchmarks/samples/fabric/sacc/queryValue.js
+        arguments:
+          assets: 500

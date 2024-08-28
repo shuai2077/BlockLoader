@@ -1,0 +1,25 @@
+plugins {
+    // Apply the application plugin to add support for building a CLI application.
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.hyperledger.fabric:fabric-gateway:1.1.0'
+    implementation 'io.grpc:grpc-netty-shaded:1.47.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'App'
+}

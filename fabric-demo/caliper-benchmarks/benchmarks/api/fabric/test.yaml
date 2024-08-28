@@ -1,0 +1,272 @@
+test:
+  name: fixed-asset-test
+  description: >-
+    This is a test yaml for the existing fixed-asset benchmarks
+  workers:
+    number: 2
+  rounds:
+    - label: empty-contract-evaluate
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/empty-contract.js
+        arguments:
+          chaincodeID: fixed-asset
+          consensus: false
+    - label: empty-contract-submit
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/empty-contract.js
+        arguments:
+          chaincodeID: fixed-asset
+          consensus: true
+    - label: create-asset-1000
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 1000
+    - label: get-asset-evaluate-100
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/get-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          create_sizes:
+            - 100
+          byteSize: 100
+          assets: 20
+          consensus: false
+    - label: get-asset-submit-200
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/get-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          create_sizes:
+            - 200
+          byteSize: 200
+          assets: 20
+          consensus: true
+    - label: rich-query-evaluate
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/rich-query-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 1000
+          pagesize: '2'
+          noSetup: true
+          nomatch: true
+          consensus: false
+    - label: rich-query-submit
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/rich-query-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 1000
+          pagesize: '5'
+          noSetup: true
+          nomatch: true
+          consensus: true
+    - label: range-query-evaluate
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/range-query-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 1000
+          range: 200
+          offset: 100
+          noSetup: true
+          pagesize: '5'
+          nomatch: true
+          consensus: false
+    - label: range-query-submit
+      chaincodeID: fixed-asset
+      txDuration: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/range-query-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 1000
+          range: 200
+          offset: 100
+          noSetup: true
+          pagesize: '5'
+          nomatch: true
+          consensus: true
+    - label: read-write-assets-previously-read-100
+      description: >-
+        Test a submitTransaction() Gateway method against
+        `fixed-asset` Smart Contract method named `ReadWriteAssets`. This method
+        reads a specified number of keys for assets of size 100
+        bytes and write to the assets that have been read.
+      chaincodeID: fixed-asset
+      txNumber: 2
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/read-write-assets/read-write-assets.js
+        arguments:
+          chaincodeID: fixed-asset
+          assets: 20
+          byteSize: 100
+          readCount: 2
+          write:
+            count: 2
+            writeMode: allread
+    - label: read-write-assets-not-previously-read-100
+      description: >-
+        Test a submitTransaction() Gateway method against the
+        `fixed-asset` Smart Contract method named `ReadWriteAssets`. This method
+        reads and writes a specified number of keys for assets of size 100
+        bytes. The write keys set will never be any of the read keys. 
+        The contract will never write to the keys that were read.
+      chaincodeID: fixed-asset
+      txNumber: 5
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/read-write-assets/read-write-assets.js
+        arguments:
+          chaincodeID: fixed-asset
+          assets: 20
+          byteSize: 100
+          readCount: 2
+          write:
+            count: 2
+            writeMode: notread
+    - label: read-write-assets-random-100
+      description: >-
+        Test a submitTransaction() Gateway method against the
+        `fixed-asset` Smart Contract method named `ReadWriteAssets`. This method
+        reads and writes a specified number of keys for assets of size 100
+        bytes. The write keys set will be random so may or may not have been previously read
+      chaincodeID: fixed-asset
+      txNumber: 5
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/read-write-assets/read-write-assets.js
+        arguments:
+          chaincodeID: fixed-asset
+          assets: 20
+          byteSize: 100
+          readCount: 2
+          write:
+            count: 2
+            writeMode: random
+    - label: delete-asset-100
+      description: >-
+        Test a submitTransaction() Gateway method against the
+        `fixed-asset` Smart Contract method named `deleteAsset`. This method
+        performs a deleteState on an item that matches an asset of size 100
+        bytes.
+      chaincodeID: fixed-asset
+      txNumber: 20
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 2
+      workload:
+        module: benchmarks/api/fabric/workloads/delete-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          create_sizes:
+            - 100
+          assets: 20
+          byteSize: 100
+          consensus: true
+    - label: delete-asset-batch-10-100
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `deleteAssetsFromBatch`. This
+        method performs a deleteState on a batch of 10 UUIDs that each match an
+        asset of size 8000 bytes.
+      chaincodeID: fixed-asset
+      txNumber: 20
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 20
+          startingTps: 10
+      workload:
+        module: benchmarks/api/fabric/workloads/batch-delete-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          create_sizes:
+            - 100
+          assets: 200
+          byteSize: 100
+          batchSize: 10
+          consensus: true
+monitors:
+    resource:
+    - module: docker
+      options:
+        interval: 4
+        containers: ['peer0.org1.example.com', 'peer0.org2.example.com', 'orderer0.example.com', 'orderer1.example.com']
+    - module: prometheus
+      options:
+        url: "http://localhost:9090"
+        metrics:
+          include: [dev-.*, couch, peer, orderer]
+          queries:
+          - name: Max Memory (MB)
+            query: sum(container_memory_rss{name=~".+"}) by (name)
+            step: 10
+            label: name
+            statistic: max
+            multiplier: 0.000001

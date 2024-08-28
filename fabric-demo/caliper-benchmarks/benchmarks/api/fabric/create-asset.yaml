@@ -1,0 +1,208 @@
+test:
+  name: create-asset-size-ramp
+  description: >-
+    This is a duration based benchmark targeting a Hyperledger Fabric network
+    using the `fixed-asset` NodeJS chaincode
+    contract that is interacted with via a Fabric-SDK-Node Gateway. Each test
+    round invokes the `createAsset` method, with successive rounds increasing
+    the byteSize of the asset added into the world state database.
+  workers:
+    number: 5
+  rounds:
+    - label: create-asset-8000-fixed-tps
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 8000 bytes into the World State database at a fixed TPS
+        rate.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 15
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 8000
+    - label: create-asset-100
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 100 bytes into the World State database.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 10
+          startingTps: 1
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 100
+    - label: create-asset-1000
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 1000 bytes into the World State database.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 10
+          startingTps: 1
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 1000
+    - label: create-asset-4000
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 4000 bytes into the World State database.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 10
+          startingTps: 1
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 4000
+    - label: create-asset-8000
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 8000 bytes into the World State database.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 10
+          startingTps: 1
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 8000
+    - label: create-asset-16000
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 16000 bytes into the World State database.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 10
+          startingTps: 1
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 16000
+    - label: create-asset-24000
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 24000 bytes into the World State database.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 10
+          startingTps: 1
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 24000
+    - label: create-asset-32000
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 32000 bytes into the World State database.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 10
+          startingTps: 1
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 32000
+    - label: create-asset-64000
+      description: >-
+        Test a submitTransaction() Gateway method against the NodeJS
+        `fixed-asset` Smart Contract method named `createAsset`, which inserts
+        an asset of size 64000 bytes into the World State database.
+      chaincodeID: fixed-asset
+      txDuration: 300
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 10
+          startingTps: 1
+      workload:
+        module: benchmarks/api/fabric/workloads/create-asset.js
+        arguments:
+          chaincodeID: fixed-asset
+          byteSize: 64000
+monitors:
+    resource:
+    - module: prometheus
+      options:
+        url: "http://localhost:9090"
+        metrics:
+          include: [dev-.*, couch, peer, orderer]
+          queries:
+          - name: Avg Memory (MB)
+            query: 'sum(container_memory_rss{name=~".+"}) by (name)'
+            step: 10
+            label: name
+            statistic: avg
+            multiplier: 0.000001
+          - name:   CPU (%)
+            query: sum(rate(container_cpu_usage_seconds_total{name=~".+"}[1m])) by (name)
+            step: 10
+            label: name
+            statistic: avg
+            multiplier: 100
+          - name: Network In (MB)
+            query: sum(rate(container_network_receive_bytes_total{name=~".+"}[1m])) by (name)
+            step: 10
+            label: name
+            statistic: sum
+            multiplier: 0.000001
+          - name: Network Out (MB)
+            query: sum(rate(container_network_transmit_bytes_total{name=~".+"}[1m])) by (name)
+            step: 10
+            label: name
+            statistic: sum
+            multiplier: 0.000001
+          - name: Disc Write (MB)
+            query: sum(rate(container_fs_writes_bytes_total{name=~".+"}[1m])) by (name)
+            step: 10
+            label: name
+            statistic: sum
+            multiplier: 0.000001
+          - name: Disc Read (MB)
+            query: sum(rate(container_fs_reads_bytes_total{name=~".+"}[1m])) by (name)
+            step: 10
+            label: name
+            statistic: sum
+            multiplier: 0.000001

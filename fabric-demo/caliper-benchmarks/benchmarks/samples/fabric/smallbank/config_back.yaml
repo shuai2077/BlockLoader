@@ -1,0 +1,36 @@
+test:
+  workers:
+    number: 4
+  rounds:
+    - label: load.
+      txNumber: 100000
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 1000
+      workload:
+        module: benchmarks/samples/fabric/smallbank/load.js
+        arguments:
+          txnPerBatch: 1
+    - label: mixed.
+      txNumber: 100000
+      rateControl:
+          type: fixed-rate
+          opts:
+            tps: 1000
+      workload:
+        module: benchmarks/samples/fabric/smallbank/mixed.js
+        arguments:
+          queryRatio: 0.1
+          txnPerBatch: 1
+  monitors:
+    resource:
+    - module: docker
+      options:
+        interval: 1
+        containers: [orderer1.example.com,orderer2.example.com,orderer3.example.com,orderer4.example.com,peer0.org1.example.com,peer0.org2.example.com,peer0.org3.example.com,peer0.org4.example.com]
+      charting:
+        bar:
+          metrics:
+            - container_cpu_usage
+            - container_memory_usage

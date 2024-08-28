@@ -1,0 +1,77 @@
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Contains reusable setting profiles
+settingProfiles:
+    # Setting profile for compiling old grpc packages on node version 10 or greater (i.e., not matching v8.*)
+    newNodeOldGrpc: &new-node-old-grpc
+        # The regular expression to check against the "node -v" output
+        versionRegexp: '^((?!v8\.).)*$'
+        # Specifies the environment variables to set for npm install
+        env:
+          CXXFLAGS: "-Wno-error=class-memaccess -Wno-error=ignored-qualifiers -Wno-error=stringop-truncation -Wno-error=cast-function-type"
+          CFLAGS: "-Wno-error=class-memaccess -Wno-error=ignored-qualifiers -Wno-error=stringop-truncation -Wno-error=cast-function-type"
+            # Specifies arguments to set for npm install
+        args: '--build-from-source'
+
+# Specifies the supported target platforms
+sut:
+    # Specifies the available SDK bindings and their Node.js-specific install settings
+    fabric:
+        # The name/key of the SDK binding
+        1.1.0:
+            # Specifies the packages and their versions to install
+            packages: ['grpc@1.10.1', 'fabric-ca-client@1.1.0', 'fabric-client@1.1.0', 'fabric-protos@2.0.0-snapshot.1']
+            # The settings to apply during binding. The first setting whose versionRegexp matches the node version will be used
+            settings:
+            - *new-node-old-grpc
+        1.1:
+            # Specifies the packages and their versions to install
+            packages: ['grpc@1.10.1', 'fabric-ca-client@1.1.0', 'fabric-client@1.1.0', 'fabric-protos@2.0.0-snapshot.1']
+            # The settings to apply during binding. The first setting whose versionRegexp matches the node version will be used
+            settings:
+            - *new-node-old-grpc
+        1.4.11:
+            packages: ['fabric-client@1.4.11', 'fabric-protos@2.0.0-snapshot.1', 'fabric-network@1.4.11']
+        1.4.14: &fabric-v1-lts
+            packages: ['fabric-client@1.4.14', 'fabric-protos@2.0.0-snapshot.1', 'fabric-network@1.4.14']
+        1.4: *fabric-v1-lts
+        2.1.0: &fabric-v2-2.1
+            packages: ['fabric-common@2.1.0', 'fabric-protos@2.1.0', 'fabric-network@2.1.0', 'fabric-ca-client@2.1.0']
+        2.1: *fabric-v2-2.1
+        2.2.3: &fabric-v2-lts
+            packages: ['fabric-network@2.2.3', 'fabric-ca-client@2.2.3']
+        2.2: *fabric-v2-lts
+        latest: *fabric-v1-lts
+        latest-v2-lts: *fabric-v2-lts
+        latest-v2: *fabric-v2-lts
+
+    fisco-bcos:
+        2.0.0: &fisco-latest
+            packages: ['web3@0.20.7']
+        latest: *fisco-latest
+
+    ethereum:
+        1.2.1: &ethereum-latest
+            packages: ['web3@1.2.2']
+        latest: *ethereum-latest
+
+    besu:
+        1.3.2:
+            packages: ['web3@1.3.0']
+        1.3:
+            packages: ['web3@1.3.0']
+        1.4: &besu-latest
+            packages: ['web3@1.3.0']
+        latest: *besu-latest
