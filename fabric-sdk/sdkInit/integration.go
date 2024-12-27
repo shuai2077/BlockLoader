@@ -1,7 +1,6 @@
 package sdkInit
 
 import (
-	"encoding/hex"
 	"fmt"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/event"
@@ -112,7 +111,7 @@ func TxListener(c *event.Client, txIDCh chan string) {
 	}
 }
 
-func BlockListener(ec *event.Client) fabAPI.Registration {
+func BlockListener(ec *event.Client) (fabAPI.Registration, <-chan *fabAPI.BlockEvent) {
 	// Register monitor block event
 	beReg, beCh, err := ec.RegisterBlockEvent()
 	if err != nil {
@@ -120,17 +119,17 @@ func BlockListener(ec *event.Client) fabAPI.Registration {
 	}
 	log.Println("Registered block event")
 
-	// Receive block event
-	go func() {
-		for e := range beCh {
-			log.Printf("Receive block event:\nSourceURL: %v\nNumber: %v\nHash"+
-				": %v\nPreviousHash: %v\n\n",
-				e.SourceURL,
-				e.Block.Header.Number,
-				hex.EncodeToString(e.Block.Header.DataHash),
-				hex.EncodeToString(e.Block.Header.PreviousHash))
-		}
-	}()
+	//// Receive block event
+	//go func() {
+	//	for e := range beCh {
+	//		log.Printf("Receive block event:\nSourceURL: %v\nNumber: %v\nHash"+
+	//			": %v\nPreviousHash: %v\n\n",
+	//			e.SourceURL,
+	//			e.Block.Header.Number,
+	//			hex.EncodeToString(e.Block.Header.DataHash),
+	//			hex.EncodeToString(e.Block.Header.PreviousHash))
+	//	}
+	//}()
 
-	return beReg
+	return beReg, beCh
 }

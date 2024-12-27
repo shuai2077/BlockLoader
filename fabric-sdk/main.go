@@ -3,12 +3,16 @@ package main
 import (
 	"fabric-sdk-go/sdkInit"
 	"fmt"
-	"os"
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"log"
 	"time"
+
+	"github.com/hyperledger/fabric/protoutil"
+	"os"
 )
 
 const (
-	cc_name    = "simplecc"
+	cc_name    = "smallbank"
 	cc_version = "1.0.0"
 )
 
@@ -17,6 +21,7 @@ var App sdkInit.Application
 func main() {
 	// init orgs information
 
+	//org信息
 	orgs := []*sdkInit.OrgInfo{
 		{
 			OrgAdminUser:  "Admin",
@@ -24,28 +29,43 @@ func main() {
 			OrgMspId:      "Org1MSP",
 			OrgUser:       "User1",
 			OrgPeerNum:    1,
-			OrgAnchorFile: os.Getenv("GOPATH") + "/src/fabric-sdk-go/fixtures/channel-artifacts/Org1MSPanchors.tx",
+			OrgAnchorFile: "/root/fabric-sdk/fixtures/channel-artifacts/Org1MSPanchors.tx",
 		},
 		{
 			OrgAdminUser:  "Admin",
 			OrgName:       "Org2",
 			OrgMspId:      "Org2MSP",
-			OrgUser:       "User2",
+			OrgUser:       "User1",
 			OrgPeerNum:    1,
-			OrgAnchorFile: os.Getenv("GOPATH") + "/src/fabric-sdk-go/fixtures/channel-artifacts/Org2MSPanchors.tx",
+			OrgAnchorFile: "/root/fabric-sdk/fixtures/channel-artifacts/Org2MSPanchors.tx",
+		},
+		{
+			OrgAdminUser:  "Admin",
+			OrgName:       "Org3",
+			OrgMspId:      "Org3MSP",
+			OrgUser:       "User1",
+			OrgPeerNum:    1,
+			OrgAnchorFile: "/root/fabric-sdk/fixtures/channel-artifacts/Org3MSPanchors.tx",
+		},
+		{
+			OrgAdminUser:  "Admin",
+			OrgName:       "Org4",
+			OrgMspId:      "Org4MSP",
+			OrgUser:       "User1",
+			OrgPeerNum:    1,
+			OrgAnchorFile: "/root/fabric-sdk/fixtures/channel-artifacts/Org4MSPanchors.tx",
 		},
 	}
-
-	// init sdk env info
+	// 初始化info
 	info := sdkInit.SdkEnvInfo{
 		ChannelID:        "mychannel",
-		ChannelConfig:    os.Getenv("GOPATH") + "/src/fabric-sdk-go/fixtures/channel-artifacts/channel.tx",
+		ChannelConfig:    "/root/fabric-sdk/fixtures/channel-artifacts/channel.tx",
 		Orgs:             orgs,
 		OrdererAdminUser: "Admin",
 		OrdererOrgName:   "OrdererOrg",
-		OrdererEndpoint:  "orderer.example.com",
+		OrdererEndpoint:  "orderer1.example.com",
 		ChaincodeID:      cc_name,
-		ChaincodePath:    os.Getenv("GOPATH") + "/src/fabric-sdk-go/chaincode/",
+		ChaincodePath:    "/root/fabric-sdk/chaincode/go/smallbank",
 		ChaincodeVersion: cc_version,
 	}
 
@@ -82,37 +102,57 @@ func main() {
 	}
 	fmt.Println(">> 设置链码状态完成")
 
-	defer info.EvClient.Unregister(sdkInit.BlockListener(info.EvClient))
-	defer info.EvClient.Unregister(sdkInit.ChainCodeEventListener(info.EvClient, info.ChaincodeID))
+	bereg, notifier := sdkInit.BlockListener(info.EvClient)
 
-	a := []string{"set", "ID1", "123"}
-	ret, err := App.Set(a)
-	if err != nil {
-		fmt.Println(err)
+	for {
+		e := <-notifier
+		for _, data := range e.Block.Data.Data {
+			// 解析区块中的每一笔交易
+			env, err := protoutil.UnmarshalEnvelope(data)
+			if err != nil {
+				fmt.Printf("failed to unmarshal envelop:%s\n", err)
+				continue
+			}
+
+			payload, err := protoutil.UnmarshalPayload(env.Payload)
+			if err != nil {
+				fmt.Printf("failed to unmarshal payload:%s\n", err)
+				continue
+			}
+
+			channelHeader, err := protoutil.UnmarshalChannelHeader(payload.Header.ChannelHeader)
+			if err != nil {
+				fmt.Printf("failed to unmarshal channel header:%s\n", err)
+				continue
+			}
+
+			txID := channelHeader.TxId
+			timestamp := channelHeader.Timestamp
+
+			writeToFile(txID, timestamp)
+		}
 	}
-	fmt.Println("<--- 添加信息　--->：", ret)
 
-	a = []string{"set", "ID2", "456"}
-	ret, err = App.Set(a)
+	defer info.EvClient.Unregister(bereg)
+	//defer info.EvClient.Unregister(sdkInit.ChainCodeEventListener(info.EvClient, info.ChaincodeID))
+}
+
+func writeToFile(txID string, timestamp *timestamppb.Timestamp) {
+	// 创建或打开文件
+	file, err := os.OpenFile("transaction_info.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalf("Failed to open file: %v", err)
 	}
-	fmt.Println("<--- 添加信息　--->：", ret)
+	defer file.Close()
 
-	a = []string{"set", "ID3", "789"}
-	ret, err = App.Set(a)
-	if err != nil {
-		fmt.Println(err)
+	// 格式化时间戳
+	timeFormatted := time.Unix(timestamp.Seconds, int64(timestamp.Nanos)).Format(time.RFC3339)
+
+	// 格式化字符串输出
+	content := fmt.Sprintf("Transaction ID: %s\nTimestamp: %s\n", txID, timeFormatted)
+
+	// 将内容写入文件
+	if _, err := file.WriteString(content); err != nil {
+		log.Fatalf("Failed to write to file: %v", err)
 	}
-	fmt.Println("<--- 添加信息　--->：", ret)
-
-	a = []string{"get", "ID3"}
-	response, err := App.Get(a)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println("<--- 查询信息　--->：", response)
-
-	time.Sleep(time.Second * 10)
-
 }
