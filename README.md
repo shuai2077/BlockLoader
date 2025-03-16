@@ -20,7 +20,7 @@ We are setting up a multi-machine, multi-node network with the following structu
 
 ### 2. Setting Up Network Hosts
 
-First, open the terminal by right-clicking, then use the following command to check the IP address of the current virtual machine on each of the eight virtual machines. The last line will display the IP address of the machine.
+First, use the following command to check the IP address of the current virtual machine on each of the eight virtual machines. The last line will display the IP address of the machine.
 
 ```bash
 ifconfig
